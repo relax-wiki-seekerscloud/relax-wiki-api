@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
 @RequestMapping("/api/users")
 public class UserController {
 
@@ -22,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping("/getAllUsers")
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
@@ -66,18 +65,4 @@ public class UserController {
         return userService.updatePassword(id, password);
     }
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@CrossOrigin
-@RequestMapping("/api/v1/user")
-public class UserController {
-
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello World!";
-    }
 }
