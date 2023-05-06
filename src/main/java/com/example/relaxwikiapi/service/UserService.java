@@ -15,6 +15,5 @@ public interface UserService {
     User updateUserPhoneNo(Long id, String phoneNo);
     User updateUserGender(Long id, String gender);
     User updateUserAddress(Long userId, Long addressId, UserAddress updatedAddress);
-
     User updatePassword(Long id, String password);
 }
