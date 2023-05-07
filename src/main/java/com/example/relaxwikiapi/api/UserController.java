@@ -1,14 +1,19 @@
 package com.example.relaxwikiapi.api;
 
 import com.example.relaxwikiapi.dto.UserDTO;
+import com.example.relaxwikiapi.dto.UserSignUpDTO;
 import com.example.relaxwikiapi.entity.User;
 import com.example.relaxwikiapi.entity.UserAddress;
+import com.example.relaxwikiapi.response.MessageResponse;
 import com.example.relaxwikiapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import jakarta.validation.Valid;
 import java.util.List;
 
+@RestController
+@CrossOrigin
 @RequestMapping("/api/users")
 public class UserController {
 
@@ -65,4 +70,16 @@ public class UserController {
         return userService.updatePassword(id, password);
     }
 
+    @PostMapping("/sign-up")
+    public ResponseEntity<?> signUp(@Valid @RequestBody UserSignUpDTO userSignUpDTO){
+        String add = this.userService.addUser(userSignUpDTO);
+        if(add=="Success"){
+            return ResponseEntity.ok(new MessageResponse("Success"));
+        }
+        else if(add=="Email Exists"){
+            return ResponseEntity.badRequest().body(new MessageResponse("Email Exists"));
+        }
+        return ResponseEntity.internalServerError().body(new MessageResponse("Something went wrong"));
+
+    }
 }

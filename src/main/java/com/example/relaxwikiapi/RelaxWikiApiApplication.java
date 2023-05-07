@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 
 //main method of the application, starts the springboot application
-
+//@SpringBootApplication
 public class RelaxWikiApiApplication {
 
 	public static void main(String[] args) {
