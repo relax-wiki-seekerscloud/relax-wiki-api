@@ -28,4 +28,12 @@ public class User {
     @OneToMany(targetEntity = UserAddress.class, cascade = CascadeType.ALL )
     @JoinColumn(name= "ua_fk", referencedColumnName = "id")
     private List<UserAddress> address;
+
+
+    public User(String userFirstName, String userLastName, String userEmail, String userPassword) {
+        this.firstName = userFirstName;
+        this.lastName = userLastName;
+        this.email = userEmail;
+        this.password = userPassword;
+    }
 }

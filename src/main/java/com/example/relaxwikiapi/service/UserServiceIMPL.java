@@ -1,11 +1,13 @@
 package com.example.relaxwikiapi.service;
 
+import com.example.relaxwikiapi.dto.UserSignUpDTO;
 import com.example.relaxwikiapi.entity.User;
 import com.example.relaxwikiapi.entity.UserAddress;
 import com.example.relaxwikiapi.repo.UserAddressRepository;
 import com.example.relaxwikiapi.repo.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,12 +21,35 @@ public class UserServiceIMPL implements UserService{
     @Autowired
     private UserAddressRepository userAddressRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public User addUser(User user) {
 
         return userRepository.save(user);
     }
 
+    @Override
+    public String addUser(UserSignUpDTO userDTO) {
+        User existingUser = userRepository.findByEmail(userDTO.getEmail());
+        if(existingUser!=null){
+            return "Email Exists";
+        }
+        User user=new User(
+                userDTO.getFirstName(),
+                userDTO.getLastName(),
+                userDTO.getEmail(),
+                passwordEncoder.encode(userDTO.getPassword())
+        );
+        try{
+            userRepository.save(user);
+        }
+        catch (Exception e){
+            return "Error";
+        }
+        return "Success";
+    }
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();

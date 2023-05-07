@@ -1,4 +1,5 @@
 package com.example.relaxwikiapi.service;
+import com.example.relaxwikiapi.dto.UserSignUpDTO;
 import com.example.relaxwikiapi.entity.User;
 import com.example.relaxwikiapi.entity.UserAddress;
 
@@ -6,6 +7,7 @@ import java.util.List;
 
 public interface UserService {
     User addUser(User user);
+    String addUser(UserSignUpDTO userDTO);
     List<User> getAllUsers();
 
     User getUserById(Long id);
@@ -16,4 +18,6 @@ public interface UserService {
     User updateUserGender(Long id, String gender);
     User updateUserAddress(Long userId, Long addressId, UserAddress updatedAddress);
     User updatePassword(Long id, String password);
+
+
 }
