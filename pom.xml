@@ -27,6 +27,7 @@
 
 	<properties>
 		<java.version>17</java.version>
+		<version.apache.commons.lang3>3.6</version.apache.commons.lang3>
 	</properties>
 
 	<dependencies>
@@ -110,6 +111,13 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${version.apache.commons.lang3}</version>
+			<scope>compile</scope>
 		</dependency>
 
 	</dependencies>
