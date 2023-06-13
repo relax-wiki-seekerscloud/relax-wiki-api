@@ -1,13 +1,19 @@
 package com.example.relaxwikiapi.api;
 
 import com.example.relaxwikiapi.dto.ActivityDetailsDTO;
+import com.example.relaxwikiapi.dto.NewActivityDTO;
 import com.example.relaxwikiapi.entity.ActivityDetails;
 import com.example.relaxwikiapi.service.ActivityDetailsService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
+@RestController
 @RequestMapping("/api/activityDetails")
 
 public class ActivityDetailsController {
@@ -97,5 +103,12 @@ public class ActivityDetailsController {
     public ActivityDetails updatePaymentMethods(@PathVariable Long id, @RequestBody ActivityDetailsDTO activityDetailsDTO) {
         List<String> paymentMethods = activityDetailsDTO.getPaymentMethods();
         return activityDetailsService.updatePaymentMethods(id, paymentMethods);
+    }
+
+    @PostMapping("/add-new-activity")
+    public ResponseEntity<?> newActivity(@Valid @RequestBody NewActivityDTO newActivityDTO){
+        System.out.println("hi activity center");
+        this.activityDetailsService.addNewActivity(newActivityDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

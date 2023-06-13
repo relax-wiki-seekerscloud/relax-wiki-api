@@ -1,13 +1,20 @@
 package com.example.relaxwikiapi.api;
 
+import com.example.relaxwikiapi.dto.NewHotelDTO;
+import com.example.relaxwikiapi.dto.NewRestaurantDTO;
 import com.example.relaxwikiapi.dto.RestaurantDetailsDTO;
 import com.example.relaxwikiapi.entity.RestaurantDetails;
 import com.example.relaxwikiapi.service.RestaurantDetailsService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@CrossOrigin
 @RequestMapping("/api/restaurantDetails")
 public class RestaurantDetailsController {
     @Autowired
@@ -99,5 +106,12 @@ public class RestaurantDetailsController {
     public RestaurantDetails updateAdditional(@PathVariable Long id, @RequestBody RestaurantDetailsDTO restaurantDetailsDTO) {
         List<String> additional = restaurantDetailsDTO.getAdditional();
         return restaurantDetailsService.updateAdditional(id, additional);
+    }
+
+    @PostMapping("/add-new-restaurant")
+    public ResponseEntity<?> newRestaurant(@Valid @RequestBody NewRestaurantDTO newRestaurantDTO){
+        System.out.println("hi restaurant");
+        restaurantDetailsService.addNewRestaurant(newRestaurantDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

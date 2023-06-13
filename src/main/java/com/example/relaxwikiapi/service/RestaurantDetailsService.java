@@ -1,11 +1,15 @@
 package com.example.relaxwikiapi.service;
 
+import com.example.relaxwikiapi.dto.NewHotelDTO;
+import com.example.relaxwikiapi.dto.NewRestaurantDTO;
 import com.example.relaxwikiapi.entity.RestaurantDetails;
 
 import java.util.List;
 
 public interface RestaurantDetailsService {
     RestaurantDetails addRestaurantDetails(RestaurantDetails restaurantDetails);
+
+    String addNewRestaurant(NewRestaurantDTO newRestaurantDTO);
     List<RestaurantDetails> findAllRestaurantDetails();
     RestaurantDetails getRestaurantDetailsById(Long id);
 
