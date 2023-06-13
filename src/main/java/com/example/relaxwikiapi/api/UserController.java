@@ -80,6 +80,8 @@ public class UserController {
             return ResponseEntity.badRequest().body(new MessageResponse("Email Exists"));
         }
         return ResponseEntity.internalServerError().body(new MessageResponse("Something went wrong"));
-
     }
+
+
 }
+

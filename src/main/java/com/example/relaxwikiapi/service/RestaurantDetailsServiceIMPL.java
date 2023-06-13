@@ -1,19 +1,26 @@
 package com.example.relaxwikiapi.service;
 
+import com.example.relaxwikiapi.dto.AddOnDTO;
+import com.example.relaxwikiapi.dto.NewRestaurantDTO;
+import com.example.relaxwikiapi.entity.AddOn;
 import com.example.relaxwikiapi.entity.RestaurantDetails;
+import com.example.relaxwikiapi.entity.User;
 import com.example.relaxwikiapi.repo.RestaurantDetailsRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.relaxwikiapi.repo.UserRepository;
 
 import java.util.List;
 
 @Service
-public class RestaurantDetailsServiceIMPL implements RestaurantDetailsService{
+public class RestaurantDetailsServiceIMPL implements RestaurantDetailsService {
 
     @Autowired
     private RestaurantDetailsRepository restaurantDetailsRepository;
 
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public RestaurantDetails addRestaurantDetails(RestaurantDetails restaurantDetails) {
@@ -128,5 +135,71 @@ public class RestaurantDetailsServiceIMPL implements RestaurantDetailsService{
         return restaurantDetailsRepository.save(restaurantDetails);
     }
 
+    @Override
+    public String addNewRestaurant(NewRestaurantDTO newRestaurantDTO) {
+
+        RestaurantDetails restaurant = new RestaurantDetails();
+        restaurant.setName(newRestaurantDTO.getRestaurantName());
+        restaurant.setContactPersonName(newRestaurantDTO.getContactPersonName());
+        restaurant.setAddress(newRestaurantDTO.getPostalCode() + "," + newRestaurantDTO.getStreetAddress() + "," + newRestaurantDTO.getAddressLine2() + "," + newRestaurantDTO.getCity() + "," + newRestaurantDTO.getCountry());
+        restaurant.setLanguages(newRestaurantDTO.getLanguages());
+        restaurant.setPhotoUrls(newRestaurantDTO.getPhotoUrls());
+        restaurant.setContactNumbers(newRestaurantDTO.getContactNumbers());
+        restaurant.setRestaurantDesc(newRestaurantDTO.getRestaurantDesc());
+        restaurant.setPaymentMethods(newRestaurantDTO.getPaymentMethods());
+        restaurant.setMealsServed(newRestaurantDTO.getMealsServed());
+        restaurant.setRestaurantCategory(newRestaurantDTO.getRestaurantCategory());
+        restaurant.setOfferedCuisine(newRestaurantDTO.getOfferedCuisine());
+        restaurant.setOpenTimeForm(newRestaurantDTO.getOpenTimeFrom());
+        restaurant.setOpenTimeTo(newRestaurantDTO.getOpenTimeTo());
+
+        User user = userRepository.findByEmail("taneesha@gmail.com");
+        restaurant.setUser(user);
+
+//        if (newRestaurantDTO.getAddOns() != null) {
+//            for (AddOnDTO addOnDTO : newRestaurantDTO.getAddOns()) {
+//                AddOn addOn = new AddOn();
+//                addOn.setType(addOnDTO.getType());
+//                addOn.setCategory(addOnDTO.getCategory());
+//                addOn.setName(addOnDTO.getName());
+//                restaurant.addAddOn(addOn);
+//            }
+//        }
+
+        if (newRestaurantDTO.getParking()!=null){
+            for (String parking:newRestaurantDTO.getParking()){
+                AddOn addOn=new AddOn();
+                addOn.setCategory("Parking");
+                addOn.setName(parking);
+                restaurant.addAddOn(addOn);
+            }
+        }
+
+        if (newRestaurantDTO.getAtmosphere()!=null){
+            for (String atmosphere:newRestaurantDTO.getAtmosphere()){
+                AddOn addOn=new AddOn();
+                addOn.setCategory("Atmosphere");
+                addOn.setName(atmosphere);
+                restaurant.addAddOn(addOn);
+            }
+        }
+
+        if (newRestaurantDTO.getAdditional()!=null){
+            for (String additional:newRestaurantDTO.getAdditional()){
+                AddOn addOn=new AddOn();
+                addOn.setCategory("Additional");
+                addOn.setName(additional);
+                restaurant.addAddOn(addOn);
+            }
+        }
+
+        try {
+            restaurantDetailsRepository.save(restaurant);
+        } catch (Exception e) {
+            System.out.println(e);
+            return "Error";
+        }
+        return "Success";
+    }
 
 }

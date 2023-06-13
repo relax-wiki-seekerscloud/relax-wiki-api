@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,6 +30,17 @@ public class User {
     @JoinColumn(name= "ua_fk", referencedColumnName = "id")
     private List<UserAddress> address;
 
+    @OneToMany(mappedBy = "id",fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<HotelDetails> hotels;
+
+    @OneToMany(mappedBy = "id",fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<RestaurantDetails> restaurants;
+
+    @OneToMany(mappedBy = "id",fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<ActivityDetails> activities;
 
     public User(String userFirstName, String userLastName, String userEmail, String userPassword) {
         this.firstName = userFirstName;

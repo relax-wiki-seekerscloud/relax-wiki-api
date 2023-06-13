@@ -1,15 +1,23 @@
 package com.example.relaxwikiapi.service;
 
-import com.example.relaxwikiapi.entity.HotelDetails;
+import com.example.relaxwikiapi.dto.AddOnDTO;
+import com.example.relaxwikiapi.dto.HotelRoomBedDTO;
+import com.example.relaxwikiapi.dto.NewHotelDTO;
+import com.example.relaxwikiapi.dto.NewHotelRoomDTO;
+import com.example.relaxwikiapi.entity.*;
 import com.example.relaxwikiapi.repo.HotelDetailsRepository;
+import com.example.relaxwikiapi.repo.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class HotelDetailsServiceIMPL implements HotelDetailsService {
+
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private HotelDetailsRepository hotelDetailsRepository;
 
@@ -117,5 +125,188 @@ public class HotelDetailsServiceIMPL implements HotelDetailsService {
         HotelDetails hotelDetails = hotelDetailsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Hotel details not found"));
         hotelDetails.setOtherAmenities(otherAmenities);
         return hotelDetailsRepository.save(hotelDetails);
+    }
+
+    @Override
+    public String addNewHotel(NewHotelDTO newHotelDTO) {
+        HotelDetails hotel = new HotelDetails();
+        hotel.setName(newHotelDTO.getHotelName());
+        hotel.setStarRating(newHotelDTO.getStarRating());
+        hotel.setContactPersonName(newHotelDTO.getContactPersonName());
+        hotel.setAddress(newHotelDTO.getPostalCode() + ", " + newHotelDTO.getStreetAddress() + ", " + newHotelDTO.getAddressLine2() + ", " + newHotelDTO.getCity() + ", " + newHotelDTO.getCountry());
+        hotel.setContactNumbers(newHotelDTO.getContactNumbers());
+        hotel.setPhotoUrls(newHotelDTO.getPhotoUrls());
+        hotel.setLanguages(newHotelDTO.getLanguages());
+        hotel.setPaymentMethods(newHotelDTO.getPaymentMethods());
+        hotel.setBookingCancelPeriod(newHotelDTO.getBookingCancelPeriod());
+        hotel.setBookingCancelCharge(newHotelDTO.getBookingCancelCharge());
+        hotel.setPets(newHotelDTO.getPets());
+        hotel.setPetsCharge(newHotelDTO.getPetsCharge());
+        hotel.setCheckInTimeFrom(newHotelDTO.getCheckInTimeFrom());
+        hotel.setCheckInTimeTo(newHotelDTO.getCheckInTimeTo());
+        hotel.setCheckOutTimeFrom(newHotelDTO.getCheckOutTimeFrom());
+        hotel.setCheckOutTimeTo(newHotelDTO.getCheckOutTimeTo());
+        User user = userRepository.findByEmail("taneesha@gmail.com");
+        hotel.setUser(user);
+        if (newHotelDTO.getRooms() != null) {
+            for (NewHotelRoomDTO hotelRoomDto : newHotelDTO.getRooms()) {
+                HotelRoom hotelRoom = new HotelRoom();
+                hotelRoom.setRoomType(hotelRoomDto.getRoomType());
+                hotelRoom.setRoomName(hotelRoomDto.getRoomName());
+                hotelRoom.setRoomSize(hotelRoomDto.getRoomSize());
+                hotelRoom.setCustomRoomName(hotelRoomDto.getCustomRoomName());
+                hotelRoom.setNoOfPeople(hotelRoomDto.getNoOfPeople());
+                hotelRoom.setRoomCountFromRoomType(hotelRoomDto.getRoomCountFromRoomType());
+                hotelRoom.setSmokingPolicy(hotelRoomDto.getSmokingPolicy());
+                hotelRoom.setBathroomCount(hotelRoomDto.getBathroomCount());
+                hotelRoom.setLivingRoomCount(hotelRoomDto.getLivingRoomCount());
+                hotelRoom.setBedroomCount(hotelRoomDto.getBedroomCount());
+                hotelRoom.setPricePerNight(hotelRoomDto.getPricePerNight());
+                if (hotelRoomDto.getBeds() != null) {
+                    for (HotelRoomBedDTO newBed : hotelRoomDto.getBeds()) {
+                        HotelRoomBed bed = new HotelRoomBed();
+                        bed.setBedType(newBed.getBedType());
+                        hotelRoom.addBed(bed);
+                    }
+                }
+                hotel.addRoom(hotelRoom);
+            }
+        }
+
+//        if (newHotelDTO.getAddOns() != null) {
+//            for (AddOnDTO addOnDTO : newHotelDTO.getAddOns()) {
+//                AddOn addOn = new AddOn();
+//                addOn.setType(addOnDTO.getType());
+//                addOn.setName(addOnDTO.getName());
+//                addOn.setCategory(addOnDTO.getCategory());
+//                hotel.addAddOn(addOn);
+//            }
+//        }
+        if (newHotelDTO.getMostCommonAmenities() != null) {
+            for (String amenity : newHotelDTO.getMostCommonAmenities()) {
+                AddOn addOn = new AddOn();
+                addOn.setCategory("Amenity");
+                addOn.setSubCategory("Most Common Amenity");
+                addOn.setName(amenity);
+                hotel.addAddOn(addOn);
+            }
+        }
+
+        if (newHotelDTO.getRoomAmenities() != null) {
+            for (String amenity : newHotelDTO.getRoomAmenities()) {
+                AddOn addOn = new AddOn();
+                addOn.setCategory("Amenity");
+                addOn.setSubCategory("Room Amenity");
+                addOn.setName(amenity);
+                hotel.addAddOn(addOn);
+            }
+        }
+
+        if (newHotelDTO.getFoodAndDrinkAmenities() != null) {
+            for (String amenity : newHotelDTO.getFoodAndDrinkAmenities()) {
+                AddOn addOn = new AddOn();
+                addOn.setCategory("Amenity");
+                addOn.setSubCategory("Food and Drink Amenity");
+                addOn.setName(amenity);
+                hotel.addAddOn(addOn);
+            }
+        }
+
+        if (newHotelDTO.getEntertainmentAndFamilyServicesAmenities() != null) {
+            for (String amenity : newHotelDTO.getEntertainmentAndFamilyServicesAmenities()) {
+                AddOn addOn = new AddOn();
+                addOn.setCategory("Amenity");
+                addOn.setSubCategory("Entertainment and Family Services Amenity");
+                addOn.setName(amenity);
+                hotel.addAddOn(addOn);
+            }
+        }
+
+        if (newHotelDTO.getMediaAndTechnologyAmenities() != null) {
+            for (String amenity : newHotelDTO.getMediaAndTechnologyAmenities()) {
+                AddOn addOn = new AddOn();
+                addOn.setCategory("Amenity");
+                addOn.setSubCategory("Media and Technology Amenity");
+                addOn.setName(amenity);
+                hotel.addAddOn(addOn);
+            }
+        }
+
+        if (newHotelDTO.getBathroomAmenities() != null) {
+            for (String amenity : newHotelDTO.getBathroomAmenities()) {
+                AddOn addOn = new AddOn();
+                addOn.setCategory("Amenity");
+                addOn.setSubCategory("Bathroom Amenity");
+                addOn.setName(amenity);
+                hotel.addAddOn(addOn);
+            }
+        }
+
+        if (newHotelDTO.getRoomAccessibilityAmenities() != null) {
+            for (String amenity : newHotelDTO.getRoomAccessibilityAmenities()) {
+                AddOn addOn = new AddOn();
+                addOn.setCategory("Amenity");
+                addOn.setSubCategory("Room Accessibility Amenity");
+                addOn.setName(amenity);
+                hotel.addAddOn(addOn);
+            }
+        }
+
+        if (newHotelDTO.getSafetyAndSecurityAmenities()!=null){
+            for (String amenity:newHotelDTO.getSafetyAndSecurityAmenities()){
+                AddOn addOn=new AddOn();
+                addOn.setCategory("Amenity");
+                addOn.setSubCategory("Safety and Security");
+                addOn.setName(amenity);
+                hotel.addAddOn(addOn);
+            }
+        }
+
+        if (newHotelDTO.getOutdoorAmenities()!=null){
+            for (String amenity:newHotelDTO.getOutdoorAmenities()){
+                AddOn addOn=new AddOn();
+                addOn.setCategory("Amenity");
+                addOn.setSubCategory("Outdoor Amenity");
+                addOn.setName(amenity);
+                hotel.addAddOn(addOn);
+            }
+        }
+
+        if (newHotelDTO.getServicesAndExtraAmenities()!=null){
+            for (String amenity:newHotelDTO.getServicesAndExtraAmenities()){
+                AddOn addOn=new AddOn();
+                addOn.setCategory("amenity");
+                addOn.setSubCategory("Services and Extra Amenity");
+                addOn.setName(amenity);
+                hotel.addAddOn(addOn);
+            }
+        }
+
+        if (newHotelDTO.getFacilities()!=null){
+            for (String facility:newHotelDTO.getFacilities()){
+                AddOn addOn=new AddOn();
+                addOn.setCategory("facility");
+                addOn.setSubCategory("");
+                addOn.setName(facility);
+                hotel.addAddOn(addOn);
+            }
+        }
+
+        if (newHotelDTO.getServices()!=null){
+            for (String service:newHotelDTO.getServices()){
+                AddOn addOn=new AddOn();
+                addOn.setCategory("service");
+                addOn.setName(service);
+                hotel.addAddOn(addOn);
+            }
+        }
+
+        try {
+            hotelDetailsRepository.save(hotel);
+        } catch (Exception e) {
+            System.out.println(e);
+            return "Error";
+        }
+        return "Success";
     }
 }
