@@ -70,17 +70,17 @@ public class UserController {
         return userService.updatePassword(id, password);
     }
 
-    @PostMapping("/sign-up")
-    public ResponseEntity<?> signUp(@Valid @RequestBody UserSignUpDTO userSignUpDTO){
-        String add = this.userService.addUser(userSignUpDTO);
-        if(add=="Success"){
-            return ResponseEntity.ok(new MessageResponse("Success"));
-        }
-        else if(add=="Email Exists"){
-            return ResponseEntity.badRequest().body(new MessageResponse("Email Exists"));
-        }
-        return ResponseEntity.internalServerError().body(new MessageResponse("Something went wrong"));
-    }
+//    @PostMapping("/sign-up")
+//    public ResponseEntity<?> signUp(@Valid @RequestBody UserSignUpDTO userSignUpDTO){
+//        String add = this.userService.addUser(userSignUpDTO);
+//        if(add=="Success"){
+//            return ResponseEntity.ok(new MessageResponse("Success"));
+//        }
+//        else if(add=="Email Exists"){
+//            return ResponseEntity.badRequest().body(new MessageResponse("Email Exists"));
+//        }
+//        return ResponseEntity.internalServerError().body(new MessageResponse("Something went wrong"));
+//    }
 
 
 }

@@ -3,13 +3,15 @@ package com.example.relaxwikiapi.service;
 import com.example.relaxwikiapi.dto.NewHotelDTO;
 import com.example.relaxwikiapi.dto.NewHotelRoomDTO;
 import com.example.relaxwikiapi.entity.HotelDetails;
+import com.example.relaxwikiapi.entity.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.util.List;
 
 public interface HotelDetailsService {
     HotelDetails addHotelDetails(HotelDetails hotelDetails);
 
-    String addNewHotel(NewHotelDTO newHotelDTO);
+    String addNewHotel(NewHotelDTO newHotelDTO,User user);
 
     List<HotelDetails> getAllHotelDetails();
     HotelDetails getHotelDetailsById(Long id);

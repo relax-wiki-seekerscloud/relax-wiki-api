@@ -4,11 +4,13 @@ import com.example.relaxwikiapi.dto.NewHotelDTO;
 import com.example.relaxwikiapi.dto.NewRestaurantDTO;
 import com.example.relaxwikiapi.dto.RestaurantDetailsDTO;
 import com.example.relaxwikiapi.entity.RestaurantDetails;
+import com.example.relaxwikiapi.entity.User;
 import com.example.relaxwikiapi.service.RestaurantDetailsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -109,9 +111,9 @@ public class RestaurantDetailsController {
     }
 
     @PostMapping("/add-new-restaurant")
-    public ResponseEntity<?> newRestaurant(@Valid @RequestBody NewRestaurantDTO newRestaurantDTO){
+    public ResponseEntity<?> newRestaurant(@Valid @RequestBody NewRestaurantDTO newRestaurantDTO, @AuthenticationPrincipal User user){
         System.out.println("hi restaurant");
-        restaurantDetailsService.addNewRestaurant(newRestaurantDTO);
+        restaurantDetailsService.addNewRestaurant(newRestaurantDTO,user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

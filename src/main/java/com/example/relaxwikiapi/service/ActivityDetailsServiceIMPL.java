@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ActivityDetailsServiceIMPL implements ActivityDetailsService {
@@ -136,7 +137,7 @@ public class ActivityDetailsServiceIMPL implements ActivityDetailsService {
     }
 
     @Override
-    public String addNewActivity(NewActivityDTO newActivityDTO) {
+    public String addNewActivity(NewActivityDTO newActivityDTO, User user) {
         ActivityDetails activity = new ActivityDetails();
         activity.setName(newActivityDTO.getActivityCenterName());
         activity.setActivityCenterDesc(newActivityDTO.getActivityCenterDesc());
@@ -153,7 +154,6 @@ public class ActivityDetailsServiceIMPL implements ActivityDetailsService {
         activity.setPaymentMethods(newActivityDTO.getPaymentMethods());
         activity.setMealsProvided(newActivityDTO.getMealsProvided());
         activity.setPhotoUrls(newActivityDTO.getPhotoUrls());
-        User user = userRepository.findByEmail("taneesha@gmail.com");
         activity.setUser(user);
 //        if (newActivityDTO.getAddOns()!=null){
 //            for (AddOnDTO addOnDTO:newActivityDTO.getAddOns()){

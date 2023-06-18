@@ -1,5 +1,7 @@
 package com.example.relaxwikiapi.service;
 
+import com.example.relaxwikiapi.config.JwtUtil;
+import com.example.relaxwikiapi.dto.UserLoginDTO;
 import com.example.relaxwikiapi.dto.UserSignUpDTO;
 import com.example.relaxwikiapi.entity.User;
 import com.example.relaxwikiapi.entity.UserAddress;
@@ -7,22 +9,27 @@ import com.example.relaxwikiapi.repo.UserAddressRepository;
 import com.example.relaxwikiapi.repo.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
-public class UserServiceIMPL implements UserService{
+public class UserServiceIMPL implements UserService {
 
     @Autowired
     private UserRepository userRepository;
 
+    private JwtUtil jwtUtil = new JwtUtil();
+
     @Autowired
     private UserAddressRepository userAddressRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     @Override
     public User addUser(User user) {
@@ -30,26 +37,26 @@ public class UserServiceIMPL implements UserService{
         return userRepository.save(user);
     }
 
-    @Override
-    public String addUser(UserSignUpDTO userDTO) {
-        User existingUser = userRepository.findByEmail(userDTO.getEmail());
-        if(existingUser!=null){
-            return "Email Exists";
-        }
-        User user=new User(
-                userDTO.getFirstName(),
-                userDTO.getLastName(),
-                userDTO.getEmail(),
-                passwordEncoder.encode(userDTO.getPassword())
-        );
-        try{
-            userRepository.save(user);
-        }
-        catch (Exception e){
-            return "Error";
-        }
-        return "Success";
-    }
+//    @Override
+//    public String addUser(UserSignUpDTO userDTO) {
+//        User existingUser = userRepository.findByEmail(userDTO.getEmail());
+//        if (existingUser != null) {
+//            return "Email Exists";
+//        }
+//        User user = new User(
+//                userDTO.getFirstName(),
+//                userDTO.getLastName(),
+//                userDTO.getEmail(),
+//                passwordEncoder.encode(userDTO.getPassword())
+//        );
+//        try {
+//            userRepository.save(user);
+//        } catch (Exception e) {
+//            return "Error";
+//        }
+//        return "Success";
+//    }
+
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -102,7 +109,6 @@ public class UserServiceIMPL implements UserService{
     }
 
 
-
     @Override
     public User updateUserGender(Long id, String gender) {
         User user = userRepository.findById(id).orElse(null);
@@ -153,5 +159,33 @@ public class UserServiceIMPL implements UserService{
         return null;
     }
 
+//    @Override
+//    public String login(UserLoginDTO userLoginDTO) {
+//        try {
+//            User user = userRepository.findByEmail(userLoginDTO.getEmail());
+//            if (user != null) {
+//                if (passwordEncoder.matches(userLoginDTO.getPassword(), user.getPassword())) {
+//                    String token = jwtUtil.generateToken(user);
+//                    return token;
+//                } else {
+//                    return "Invalid";
+//                }
+//            } else {
+//                return "User Not Found";
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "Error";
+//        }
+//    }
 
+    @Override
+    public User loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User not found with username or email: "+ email));
+
+        return user;
+    }
 }

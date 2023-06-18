@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.relaxwikiapi.repo.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RestaurantDetailsServiceIMPL implements RestaurantDetailsService {
@@ -136,7 +137,7 @@ public class RestaurantDetailsServiceIMPL implements RestaurantDetailsService {
     }
 
     @Override
-    public String addNewRestaurant(NewRestaurantDTO newRestaurantDTO) {
+    public String addNewRestaurant(NewRestaurantDTO newRestaurantDTO,User user) {
 
         RestaurantDetails restaurant = new RestaurantDetails();
         restaurant.setName(newRestaurantDTO.getRestaurantName());
@@ -153,7 +154,6 @@ public class RestaurantDetailsServiceIMPL implements RestaurantDetailsService {
         restaurant.setOpenTimeForm(newRestaurantDTO.getOpenTimeFrom());
         restaurant.setOpenTimeTo(newRestaurantDTO.getOpenTimeTo());
 
-        User user = userRepository.findByEmail("taneesha@gmail.com");
         restaurant.setUser(user);
 
 //        if (newRestaurantDTO.getAddOns() != null) {

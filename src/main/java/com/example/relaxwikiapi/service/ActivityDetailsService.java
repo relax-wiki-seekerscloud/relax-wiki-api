@@ -2,12 +2,13 @@ package com.example.relaxwikiapi.service;
 
 import com.example.relaxwikiapi.dto.NewActivityDTO;
 import com.example.relaxwikiapi.entity.ActivityDetails;
+import com.example.relaxwikiapi.entity.User;
 
 import java.util.List;
 
 public interface ActivityDetailsService {
     ActivityDetails addActivityDetails(ActivityDetails activityDetails);
-    String addNewActivity(NewActivityDTO newActivityDTO);
+    String addNewActivity(NewActivityDTO newActivityDTO, User user);
     List<ActivityDetails> findAllActivityDetails();
     ActivityDetails getActivityDetailsById(Long id);
 

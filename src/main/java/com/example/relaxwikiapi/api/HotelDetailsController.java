@@ -4,11 +4,15 @@ import com.example.relaxwikiapi.dto.NewHotelDTO;
 import com.example.relaxwikiapi.dto.NewHotelRoomDTO;
 import com.example.relaxwikiapi.entity.HotelDetails;
 import com.example.relaxwikiapi.dto.HotelDetailsDTO;
+import com.example.relaxwikiapi.entity.User;
 import com.example.relaxwikiapi.service.HotelDetailsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +20,9 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/hotelDetails")
-
 public class HotelDetailsController {
     @Autowired
     private HotelDetailsService hotelDetailsService;
-
 
     @PostMapping("/addHotelDetails")
     public HotelDetails addHotelDetails(@RequestBody HotelDetails hotelDetails){
@@ -103,9 +105,8 @@ public class HotelDetailsController {
     }
 
     @PostMapping("/add-new-hotel")
-    public ResponseEntity<?> newHotel(@Valid @RequestBody NewHotelDTO newHotelDTO){
-        System.out.println("hi");
-        this.hotelDetailsService.addNewHotel(newHotelDTO);
+    public ResponseEntity<?> newHotel(@Valid @RequestBody NewHotelDTO newHotelDTO, @AuthenticationPrincipal User user){
+        this.hotelDetailsService.addNewHotel(newHotelDTO, user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

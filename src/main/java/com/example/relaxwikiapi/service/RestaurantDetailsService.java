@@ -3,13 +3,14 @@ package com.example.relaxwikiapi.service;
 import com.example.relaxwikiapi.dto.NewHotelDTO;
 import com.example.relaxwikiapi.dto.NewRestaurantDTO;
 import com.example.relaxwikiapi.entity.RestaurantDetails;
+import com.example.relaxwikiapi.entity.User;
 
 import java.util.List;
 
 public interface RestaurantDetailsService {
     RestaurantDetails addRestaurantDetails(RestaurantDetails restaurantDetails);
 
-    String addNewRestaurant(NewRestaurantDTO newRestaurantDTO);
+    String addNewRestaurant(NewRestaurantDTO newRestaurantDTO, User user);
     List<RestaurantDetails> findAllRestaurantDetails();
     RestaurantDetails getRestaurantDetailsById(Long id);
 

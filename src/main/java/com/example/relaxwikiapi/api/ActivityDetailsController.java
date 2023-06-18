@@ -3,11 +3,13 @@ package com.example.relaxwikiapi.api;
 import com.example.relaxwikiapi.dto.ActivityDetailsDTO;
 import com.example.relaxwikiapi.dto.NewActivityDTO;
 import com.example.relaxwikiapi.entity.ActivityDetails;
+import com.example.relaxwikiapi.entity.User;
 import com.example.relaxwikiapi.service.ActivityDetailsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -106,9 +108,9 @@ public class ActivityDetailsController {
     }
 
     @PostMapping("/add-new-activity")
-    public ResponseEntity<?> newActivity(@Valid @RequestBody NewActivityDTO newActivityDTO){
+    public ResponseEntity<?> newActivity(@Valid @RequestBody NewActivityDTO newActivityDTO, @AuthenticationPrincipal User user){
         System.out.println("hi activity center");
-        this.activityDetailsService.addNewActivity(newActivityDTO);
+        this.activityDetailsService.addNewActivity(newActivityDTO,user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -9,6 +9,9 @@ import com.example.relaxwikiapi.repo.HotelDetailsRepository;
 import com.example.relaxwikiapi.repo.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -128,7 +131,7 @@ public class HotelDetailsServiceIMPL implements HotelDetailsService {
     }
 
     @Override
-    public String addNewHotel(NewHotelDTO newHotelDTO) {
+    public String addNewHotel(NewHotelDTO newHotelDTO, User user) {
         HotelDetails hotel = new HotelDetails();
         hotel.setName(newHotelDTO.getHotelName());
         hotel.setStarRating(newHotelDTO.getStarRating());
@@ -146,7 +149,6 @@ public class HotelDetailsServiceIMPL implements HotelDetailsService {
         hotel.setCheckInTimeTo(newHotelDTO.getCheckInTimeTo());
         hotel.setCheckOutTimeFrom(newHotelDTO.getCheckOutTimeFrom());
         hotel.setCheckOutTimeTo(newHotelDTO.getCheckOutTimeTo());
-        User user = userRepository.findByEmail("taneesha@gmail.com");
         hotel.setUser(user);
         if (newHotelDTO.getRooms() != null) {
             for (NewHotelRoomDTO hotelRoomDto : newHotelDTO.getRooms()) {
