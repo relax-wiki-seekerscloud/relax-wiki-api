@@ -5,9 +5,11 @@ import com.example.relaxwikiapi.dto.UserSignUpDTO;
 import com.example.relaxwikiapi.entity.User;
 import com.example.relaxwikiapi.entity.UserAddress;
 import com.example.relaxwikiapi.response.MessageResponse;
+import com.example.relaxwikiapi.response.UserResponse;
 import com.example.relaxwikiapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -68,6 +70,11 @@ public class UserController {
     @PatchMapping("/updateUserPassword/{id}")
     public User updatePassword(@PathVariable Long id, @RequestParam String password) {
         return userService.updatePassword(id, password);
+    }
+
+    @GetMapping("/user")
+    public UserResponse getUserById(@AuthenticationPrincipal User user) {
+        return new UserResponse(user.getFirstName(),user.getLastName(),user.getEmail());
     }
 
 //    @PostMapping("/sign-up")

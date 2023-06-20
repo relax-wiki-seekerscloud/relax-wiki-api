@@ -28,6 +28,8 @@ public class User implements UserDetails {
     private String gender;
     private String password;
 
+    private boolean isVerified;
+
     @OneToMany(targetEntity = UserAddress.class, cascade = CascadeType.ALL )
     @JoinColumn(name= "ua_fk", referencedColumnName = "id")
     private List<UserAddress> address;
