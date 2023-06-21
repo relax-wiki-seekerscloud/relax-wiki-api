@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -68,6 +69,41 @@ public class GP_BookingController {
     }
 
 
+//    @GetMapping("/getListOfBookingsOfGivenHotel/{hotelId}")
+//    public void getListOfAmountsOfBookingsGivenHotel(@PathVariable String hotelId) {
+//        List<GP_Booking> getBookingByBookingId = this.gp_bookingRepository.findAll();
+//        List<GP_Booking> noOfBookingsOfGivenHotel = new ArrayList<>();
+//        for(GP_Booking booking : getBookingByBookingId){
+//            if(booking.getHotelInfo().getRegId().equals(hotelId)){
+//                noOfBookingsOfGivenHotel.add(booking);
+//            }
+//        }
 
+
+//        Date currentDate = new Date();
+//
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(currentDate);
+//        calendar.add(Calendar.DAY_OF_MONTH, -7);
+//        Date startDate = calendar.getTime();
+//
+//        int[] counts = new int[7];
+//
+//        for (GP_Booking booking : noOfBookingsOfGivenHotel) {
+//            Date bookingDate = booking.getBookingDate();
+//
+//            if (bookingDate.after(startDate) && bookingDate.before(currentDate)) {
+//                int index = (int) ((bookingDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
+//
+//                counts[index]++;
+//            }
+//        }
 
 }
+
+
+
+
+
+
+
