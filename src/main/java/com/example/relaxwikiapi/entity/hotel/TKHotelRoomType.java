@@ -33,6 +33,12 @@ public class TKHotelRoomType {
     @Column(name = "price", nullable = false)
     private Double price;
 
+    @Column(name="adult_num", nullable=false)
+    private Integer adultNum;
+
+    @Column(name="child_num")
+    private Integer childNum;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "tkHotelRoomType")
     private Set<TKHotelRoomTypeFacility> tkHotelRoomTypeFacilities;
 

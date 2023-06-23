@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +21,9 @@ public class TKHotelServiceImpl implements TKHotelService {
 
     @Autowired
     private TKHotelRepository tkHotelRepository;
+
+    @Autowired
+    private TKHotelAvailabilityRepository tkHotelAvailabilityRepository;
 
     @Autowired
     private TKHotelReviewRepository tkHotelReviewRepository;
@@ -97,5 +102,21 @@ public class TKHotelServiceImpl implements TKHotelService {
         hotelBooking = this.tkHotelBookingRepository.saveAndFlush(hotelBooking);
 
         return new TKHotelBookingDTO(hotelBooking);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public List<TKHotelAvailabilityDTO> findHotelAvailability(Long hotelID, LocalDate date) throws AppsException {
+        TKHotel hotel = tkHotelRepository.findById(hotelID)
+                .orElseThrow(() -> new AppsException("Hotel not found"));
+
+        List<TKHotelAvailability> availabilityList = tkHotelAvailabilityRepository.findAllByTkHotelAndDate(hotel, date);
+        List<TKHotelAvailabilityDTO> availabilityDTOList = new ArrayList<>();
+
+        for (TKHotelAvailability availability : availabilityList) {
+            availabilityDTOList.add(new TKHotelAvailabilityDTO(availability));
+        }
+
+        return availabilityDTOList;
     }
 }

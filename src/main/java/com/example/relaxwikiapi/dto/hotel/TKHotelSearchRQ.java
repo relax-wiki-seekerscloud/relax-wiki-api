@@ -2,6 +2,7 @@ package com.example.relaxwikiapi.dto.hotel;
 
 import com.example.relaxwikiapi.constants.AppsConstants;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,15 +10,25 @@ public class TKHotelSearchRQ {
 
     private String hotelLocation;
 
-    private String hotelCheckin;
+    private LocalDate hotelCheckin;
 
-    private String hotelCheckout;
+    private LocalDate hotelCheckout;
 
     private Integer numOfAdults;
 
     private Integer numOfChildren;
 
     private Integer hotelRooms;
+
+    private TKHotelRoomTypeDTO priceDTO;
+
+    public TKHotelRoomTypeDTO getPriceDTO() {
+        return priceDTO;
+    }
+
+    public void setPriceDTO(TKHotelRoomTypeDTO priceDTO) {
+        this.priceDTO = priceDTO;
+    }
 
     private List<AppsConstants.FilterByBudget> filterByBudgetArr;
 
@@ -31,19 +42,19 @@ public class TKHotelSearchRQ {
         this.hotelLocation = hotelLocation;
     }
 
-    public String getHotelCheckin() {
+    public LocalDate getHotelCheckin() {
         return hotelCheckin;
     }
 
-    public void setHotelCheckin(String hotelCheckin) {
+    public void setHotelCheckin(LocalDate hotelCheckin) {
         this.hotelCheckin = hotelCheckin;
     }
 
-    public String getHotelCheckout() {
+    public LocalDate getHotelCheckout() {
         return hotelCheckout;
     }
 
-    public void setHotelCheckout(String hotelCheckout) {
+    public void setHotelCheckout(LocalDate hotelCheckout) {
         this.hotelCheckout = hotelCheckout;
     }
 

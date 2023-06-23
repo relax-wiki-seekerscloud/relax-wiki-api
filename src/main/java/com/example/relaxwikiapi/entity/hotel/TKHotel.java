@@ -91,6 +91,9 @@ public class TKHotel {
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "tkHotel")
     private Set<TKHotelRoomType> tkHotelRoomTypes;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "tkHotel")
+    private Set<TKHotelAvailability> tkHotelAvailabilities;
+
     public Set<TKHotelReview> getTkHotelReviews() {
         if (tkHotelReviews == null) {
             tkHotelReviews = new HashSet<>();

@@ -4,6 +4,7 @@ import com.example.relaxwikiapi.constants.AppsConstants;
 import com.example.relaxwikiapi.dto.common.ResponseDTO;
 import com.example.relaxwikiapi.dto.hotel.TKHotelBookingDTO;
 import com.example.relaxwikiapi.dto.hotel.TKHotelDTO;
+import com.example.relaxwikiapi.dto.hotel.TKHotelRoomTypeDTO;
 import com.example.relaxwikiapi.dto.hotel.TKHotelSearchRQ;
 import com.example.relaxwikiapi.exception.AppsException;
 import com.example.relaxwikiapi.service.hotel.TKHotelService;
@@ -20,6 +21,7 @@ public class TKHotelController {
 
     @Autowired
     private TKHotelService tkHotelService;
+
 
     @PostMapping(value = "/searchHotels", headers = "Accept=application/json")
     public ResponseEntity<ResponseDTO<List<TKHotelDTO>>> searchHotels(@RequestBody TKHotelSearchRQ searchRQ) {
@@ -83,4 +85,18 @@ public class TKHotelController {
 
         return new ResponseEntity<>(response, httpStatus);
     }
+
+    @PostMapping("/multiply")
+    public double multiplyValues(@RequestBody TKHotelSearchRQ tkHotelSearchRQ, @RequestBody TKHotelRoomTypeDTO tkHotelRoomTypeDTO) {
+        double result = tkHotelSearchRQ.getHotelRooms() * tkHotelRoomTypeDTO.getPrice();
+        return result;
+    }
+
+
+
+
 }
+
+
+
+

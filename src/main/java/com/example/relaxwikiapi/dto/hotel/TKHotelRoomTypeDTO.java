@@ -23,7 +23,12 @@ public class TKHotelRoomTypeDTO {
 
     private Double price;
 
+    private Integer adultNum;
+
+    private Integer childNum;
+
     private List<TKHotelRoomTypeFacilityDTO> hotelRoomTypeFacilities;
+
 
     public TKHotelRoomTypeDTO(TKHotelRoomType roomType) {
         this.hotelRoomTypeID = roomType.getHotelRoomTypeID();
@@ -31,6 +36,7 @@ public class TKHotelRoomTypeDTO {
         this.mainDescription = roomType.getMainDescription();
         this.subDescription = roomType.getSubDescription();
         this.price = roomType.getPrice();
+
     }
 
     public List<TKHotelRoomTypeFacilityDTO> getHotelRoomTypeFacilities() {

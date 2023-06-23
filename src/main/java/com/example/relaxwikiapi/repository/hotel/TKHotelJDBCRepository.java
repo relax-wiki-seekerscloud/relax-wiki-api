@@ -52,6 +52,7 @@ public class TKHotelJDBCRepository {
         SQL.append("FROM tk_hotel tk \n");
         SQL.append("WHERE hotel_id IS NOT NULL \n");
 
+
         if (StringUtils.isNotEmpty(searchRQ.getHotelLocation())) {
             SQL.append("AND UPPER(tk.address) LIKE '%" + searchRQ.getHotelLocation().toUpperCase() + "%' \n");
         }
@@ -64,6 +65,31 @@ public class TKHotelJDBCRepository {
         if (!searchRQ.getFilterByRatingsArr().isEmpty()) {
             SQL.append("      AND tk.star_category IN (" + QueryInBuilder.buildSQLINQuery(searchRQ.getFilterByRatingsArr()) + ") \n");
         }
+
+        if (searchRQ.getNumOfAdults() != null) {
+            SQL.append(" AND EXISTS (SELECT 1 FROM tk_hotel_room_type hrt WHERE hrt.hotel_id = tk.hotel_id AND hrt.adult_num >= :numOfAdults) ");
+            params.put("numOfAdults", searchRQ.getNumOfAdults());
+        }
+
+        if (searchRQ.getNumOfChildren() != null) {
+            SQL.append(" AND EXISTS (SELECT 1 FROM tk_hotel_room_type hrt WHERE hrt.hotel_id = tk.hotel_id AND hrt.child_num >= :numOfChildren) ");
+            params.put("numOfChildren", searchRQ.getNumOfChildren());
+        }
+
+        if (searchRQ.getHotelRooms() != null) {
+            SQL.append(" AND EXISTS (SELECT 1 FROM tk_hotel hrn WHERE hrn.hotel_id = tk.hotel_id AND hrn.number_of_rooms >:hotelRooms) ");
+            params.put("hotelRooms", searchRQ.getHotelRooms());
+        }
+
+
+        if (searchRQ.getHotelCheckin() != null) {
+            SQL.append("AND EXISTS (SELECT 1 FROM tk_hotel_availability ha WHERE ha.hotel_id = tk.hotel_id AND ha.date = :hotelCheckin AND ha.available_state = TRUE) ");
+            params.put("hotelCheckin", searchRQ.getHotelCheckin());
+        }
+
+
+
+
 
         for (AppsConstants.FilterByBudget filterByBudget : searchRQ.getFilterByBudgetArr()) {
             switch (filterByBudget) {
