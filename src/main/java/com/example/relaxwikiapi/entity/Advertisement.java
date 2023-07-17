@@ -1,12 +1,10 @@
 package com.example.relaxwikiapi.entity;
 
 
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 import lombok.*;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import  jakarta.persistence.Id;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -18,16 +16,21 @@ public class Advertisement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String title;
-    private String description;
-    private String type;
+    private String title;//
+    private String description;//
+    private String type;// image or video
     private String resourceUrl;
-    private int isVerified;
-    private int status;
-    private String businessName;
-    private String businessType;
-    private String  businessUrl;
-    private String businessPhone;
-    private String expireDate;
-    private int budget;
+    private String isVerified;
+    private String status;
+    private String businessName;//
+    private String businessType;//
+    private String  businessUrl;//
+    private String businessAddress;//
+    private String businessPhone;//
+    private String expireDate;//
+    private String budget;//
+    private String price;//
+
+    @Column(name = "timestamp")
+    private LocalDateTime timestamp;
 }

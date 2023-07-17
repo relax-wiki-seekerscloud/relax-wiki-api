@@ -5,10 +5,11 @@ import com.example.relaxwikiapi.repo.AdvertisementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 // Mark this class as a Spring service component
 @Service
-public class AdvertisementService {
+public class  AdvertisementService {
 
     // Inject an instance of AdvertisementRepository using @Autowired
     @Autowired
@@ -16,6 +17,7 @@ public class AdvertisementService {
 
     // Define a method to save an Advertisement entity
     public Advertisement saveAdvertisement(Advertisement advertisement) {
+        advertisement.setTimestamp(LocalDateTime.now());
         return repo.save(advertisement);
     }
 
@@ -53,6 +55,9 @@ public class AdvertisementService {
         existingAdvertisement.setBusinessPhone(advertisement.getBusinessPhone());
         existingAdvertisement.setExpireDate(advertisement.getExpireDate());
         existingAdvertisement.setBudget(advertisement.getBudget());
+        existingAdvertisement.setPrice(advertisement.getPrice());
+        existingAdvertisement.setTimestamp(advertisement.getTimestamp());
+
         //save and return the updated advertisement entity
         return repo.save(existingAdvertisement);
     }
